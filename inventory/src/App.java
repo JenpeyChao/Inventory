@@ -68,13 +68,21 @@ public class App {
                 System.out.println("Admin Menu:");
                 System.out.println("1) View products");
                 System.out.println("2) View Sales");
+                System.out.println("3) Update products");
+                System.out.println("4) Add products");
+                System.out.println("5) delete products");
+                System.out.println("6) exit");
                 choice = myObj.nextInt();
                 myObj.nextLine();
                 switch(choice){
                     case 1 -> getProducts();
                     case 2 -> getSales();
+                    case 3 -> updateProducts();
+                    case 4 -> addProducts();
+                    case 5 -> deleteProducts();
+                    
                 }
-            }while(choice!= 5);
+            }while(choice!= 6);
 
         }else{
             do{
@@ -91,6 +99,32 @@ public class App {
                 }
             }while(choice!= 3);
         }
+    }
+
+    private static void deleteProducts() {
+
+    }
+
+    private static void addProducts() {
+        int id,price;
+        String name,quantity;
+        System.out.print("Which user id? ");
+        id = myObj.nextInt();
+        myObj.nextLine();
+
+        System.out.print("Name of the item? ");
+        name = myObj.nextLine();
+
+        System.out.print("How much is the product? ");
+        price = myObj.nextInt();
+        myObj.nextLine();
+
+        System.out.print("How many? ");
+        quantity = myObj.nextLine();
+        connect.insertProduct(id,name,quantity,price);
+    }
+
+    private static void updateProducts() {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {

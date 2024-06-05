@@ -56,6 +56,25 @@ public class Connect {
         }
         return null;
     }
+    public void insertProduct(int ID, String name, String quantity, int price){
+        try{
+            String insertSQL = "INSERT INTO products (ID, name, quantity, price) VALUES (?, ?, ?, ?)";
+            insert = connection.prepareStatement(insertSQL);
+            connection.setAutoCommit(false);
+
+            insert.setInt(1,ID);
+            insert.setString(2,name);
+            insert.setString(3,quantity);
+            insert.setInt(4, price);
+            insert.addBatch();
+
+            int[] addedRecords = insert.executeBatch();
+            connection.commit();
+            System.out.println("Successfully added "+addedRecords.length+ " products!");
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Connect() throws SQLException, ClassNotFoundException {
         url = "jdbc:mysql://localhost:3306/inventory";
