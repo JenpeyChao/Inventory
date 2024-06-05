@@ -134,7 +134,24 @@ public class App {
         connect.insertProduct(id,name,quantity,price);
     }
 
-    private static void updateProducts() {
+    private static void updateProducts() throws SQLException {
+        int id,price;
+        String name,quantity;
+        //asks which product do you want to update
+        System.out.print("Which userID's product did you want to update? ");
+        id = myObj.nextInt();
+        myObj.nextLine();
+        System.out.print("Name of the item you want to update? ");
+        name = myObj.nextLine();
+
+        System.out.print("What is the price of the product? (leave 0 if you dont want to change)");
+        price = myObj.nextInt();
+        myObj.nextLine();
+
+        System.out.print("How many? (leave blank if you dont want to change)");
+        quantity = myObj.nextLine();
+        connect.updateProduct(id,name,quantity,price);
+
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {

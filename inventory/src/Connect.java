@@ -85,6 +85,36 @@ public class Connect {
             throw new RuntimeException(e);
         }
     }
+    public void updateProduct(int id, String name,String quantity, int price) throws SQLException {
+        String query = "select * from products where products.id = '"+id+"' and products.name = '"+name+"'";
+        //gets the result from the database to see if we have it in the sytem
+        //if not then we say we dont have that item
+        result = statement.executeQuery(query);
+        if(result.isBeforeFirst()){
+            query = "";
+            //if they wanted to change both
+            if (!quantity.isEmpty() && price !=0){
+                query = "update products set quantity='"+quantity+"', price = '"+price+"' where products.id = '"+id+"' and products.name = '"+name+"'";
+            //if they wanted to change the price
+            }else if (quantity.isEmpty() && price !=0){
+                query = "update products set price = '"+price+"' where products.id = '"+id+"' and products.name = '"+name+"'";
+            //change the quantity
+            } else if (price == 0 && !quantity.isEmpty()) {
+                query = "update products set quantity='"+quantity+"' where products.id = '"+id+"' and products.name = '"+name+"'";;
+            }else {
+                //and nothing to change
+                System.out.println("You changed nothing ");
+                return;
+            }
+
+            insert = connection.prepareStatement(query);
+            insert.execute();
+
+
+        }else{
+            System.out.println("Theres no product for that user");
+        }
+    }
 
     public Connect() throws SQLException, ClassNotFoundException {
         //connects to the database
