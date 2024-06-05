@@ -110,8 +110,16 @@ public class App {
         }
     }
 
-    private static void deleteProducts() {
+    private static void deleteProducts() throws SQLException {
+        int id;
+        String name;
+        System.out.print("Whats the product name you want to remove? ");
+        name = myObj.nextLine();
 
+        System.out.print("which userid has the product?");
+        id = myObj.nextInt();
+        myObj.nextLine();
+        connect.removeProduct(id,name);
     }
 
     private static void addProducts() {

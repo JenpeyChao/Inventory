@@ -107,14 +107,31 @@ public class Connect {
                 return;
             }
 
+
             insert = connection.prepareStatement(query);
             insert.execute();
-
+            System.out.println("Product has been updated");
 
         }else{
             System.out.println("Theres no product for that user");
         }
     }
+
+        public void removeProduct(int id, String name) throws SQLException {
+            String query = "select * from products where products.id = '"+id+"' and products.name = '"+name+"'";
+            //gets the result from the database to see if we have it in the system
+            //if not then we say we dont have that item
+            result = statement.executeQuery(query);
+            if(result.isBeforeFirst()){
+                //deletes what the user chose
+                query = "delete from products where products.id = '"+id+"' and products.name = '"+name+"'";
+                insert = connection.prepareStatement(query);
+                insert.execute();
+                System.out.println(name +" from Userid " + id +" has been deleted");
+            }else{
+                System.out.println("Theres no product to delete");
+            }
+        }
 
     public Connect() throws SQLException, ClassNotFoundException {
         //connects to the database
