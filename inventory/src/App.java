@@ -22,28 +22,45 @@ public class App {
 
 
     }
-    public static void getSales() {
+    public static void getSales() throws SQLException {
+        ResultSet results = connect.getUserSales(user.getID(), user.getRole());
+        if(!results.isBeforeFirst()){
+            System.out.println("Theres no sold items!");
+        }else {
+            System.out.println("Sold Items:");
+            while (results.next()){
+                System.out.print("{");
+                if (user.getRole().equals("admin")) {
+                    System.out.print("UserID: " + results.getString("ID") + " ");
+                }
+                System.out.print("Name: " + results.getString("name") + ",");
+                System.out.print(" Number Of Sales: " + results.getString("quantity") + ",");
+                System.out.print(" Price: " + (double) (results.getInt("price") / 100) + ",");
+                System.out.print(" Time of Sale: " + results.getString("time") + "}");
+                System.out.println();
+            }
+        }
     }
 
     public static void getProducts() throws SQLException {
         ResultSet results = connect.getUserProducts(user.getID(), user.getRole());
-
-        System.out.println("Products:");
-        do{
-            System.out.print("{");
-            if(user.getRole().equals("admin")) {
-                System.out.print("UserID: " + results.getString("ID") + " ");
+        if(!results.isBeforeFirst()){
+            System.out.println("Theres no products!");
+        }else {
+            System.out.println("Products:");
+            while (results.next()){
+                System.out.print("{");
+                if (user.getRole().equals("admin")) {
+                    System.out.print("UserID: " + results.getString("ID") + " ");
+                }
+                System.out.print("Name: " + results.getString("name") + ",");
+                System.out.print(" Quantity: " + results.getString("quantity") + ",");
+                System.out.print(" Price: " + (double) (results.getInt("price") / 100) + "}");
+                System.out.println();
             }
-            System.out.print("Name: "+results.getString("name") + ",");
-            System.out.print(" Quantity: "+results.getString("quantity")+ ",");
-            System.out.print(" Price: "+(double)(results.getInt("price")/100) + "}");
-            System.out.println();
-        }while(results.next());
-
-
-
-
+        }
     }
+
     public static void menu(String role) throws SQLException {
         int choice;
         if(role.equals("admin")){

@@ -34,13 +34,27 @@ public class Connect {
 
         insert = connection.prepareStatement(query);
         result = statement.executeQuery(query);
-        if (result.next()){
+        if (result.isBeforeFirst()){
 
             return result;
         }
         return null;
+    }
+    public ResultSet getUserSales(int ID, String role) throws SQLException {
+        String query;
+        if(role.equals("admin")){
+            query = "select * from sales";
+        }else{
+            query = "select * from sales where sales.ID ='"+ID+"'";
+        }
 
+        insert = connection.prepareStatement(query);
+        result = statement.executeQuery(query);
+        if (result.isBeforeFirst()){
 
+            return result;
+        }
+        return null;
     }
 
     public Connect() throws SQLException, ClassNotFoundException {
