@@ -28,10 +28,5 @@ public class Users {
         this.ID = ID;
     }
 
-    public void getSales() {
-    }
 
-    public void getProducts(){
-
-    }
 }

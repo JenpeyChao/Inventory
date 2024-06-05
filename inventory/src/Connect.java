@@ -25,7 +25,13 @@ public class Connect {
 
     }
     public ResultSet getUserProducts(int ID,String role) throws SQLException {
-        String query = "select * from products where products.ID ='"+ID+"'";
+        String query;
+        if(role.equals("admin")){
+            query = "select * from products";
+        }else{
+            query = "select * from products where products.ID ='"+ID+"'";
+        }
+
         insert = connection.prepareStatement(query);
         result = statement.executeQuery(query);
         if (result.next()){
