@@ -117,7 +117,7 @@ public class Connect {
         }
     }
 
-        public void removeProduct(int id, String name) throws SQLException {
+    public void removeProduct(int id, String name) throws SQLException {
             String query = "select * from products where products.id = '"+id+"' and products.name = '"+name+"'";
             //gets the result from the database to see if we have it in the system
             //if not then we say we dont have that item
