@@ -12,6 +12,8 @@ public class Connect {
     private ResultSet result;
     private PreparedStatement insert;
 
+    //sets the information thats needed from the user
+    //and returns the user information
     public Users setUser(String username, String pass,Users user) throws SQLException {
         String query = "select role,ID from users where users.username ='"+username+"' and users.password ='"+pass+"'";
         insert = connection.prepareStatement(query);
@@ -24,8 +26,12 @@ public class Connect {
         return new Users();
 
     }
+
     public ResultSet getUserProducts(int ID,String role) throws SQLException {
         String query;
+        //checks if the user is an admin
+        //if its not that admin then it will send the reports of its products
+        //if it is then it will send every product
         if(role.equals("admin")){
             query = "select * from products";
         }else{
@@ -42,6 +48,9 @@ public class Connect {
     }
     public ResultSet getUserSales(int ID, String role) throws SQLException {
         String query;
+        //checks if the user is an admin
+        //if its not that admin then it will send the reports of its sales
+        //if it is then it will send every sale made
         if(role.equals("admin")){
             query = "select * from sales";
         }else{
@@ -58,6 +67,7 @@ public class Connect {
     }
     public void insertProduct(int ID, String name, String quantity, int price){
         try{
+            //inserts the new product given by the parameters
             String insertSQL = "INSERT INTO products (ID, name, quantity, price) VALUES (?, ?, ?, ?)";
             insert = connection.prepareStatement(insertSQL);
             connection.setAutoCommit(false);
@@ -77,6 +87,7 @@ public class Connect {
     }
 
     public Connect() throws SQLException, ClassNotFoundException {
+        //connects to the database
         url = "jdbc:mysql://localhost:3306/inventory";
         username = "root";
         password = "maplestory";

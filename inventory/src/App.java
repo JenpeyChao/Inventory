@@ -9,6 +9,7 @@ public class App {
     static Users user;
 
     public static void getAccess() throws SQLException {
+        //checks if the user is in the database
         do {
             String username, password;
             System.out.print("Username: ");
@@ -16,7 +17,9 @@ public class App {
             System.out.print("Password: ");
             password = myObj.nextLine();
             user = connect.setUser(username, password,user);
-
+            if(user.getRole().isEmpty()){
+                System.out.println("Please Try again");
+            }
         }while(user.getRole().isEmpty());
         menu(user.getRole());
 
@@ -24,12 +27,14 @@ public class App {
     }
     public static void getSales() throws SQLException {
         ResultSet results = connect.getUserSales(user.getID(), user.getRole());
-        if(!results.isBeforeFirst()){
+        //gets the results of the sql database depending on the id and user role
+        if(!results.isBeforeFirst()){ // if theres no items in the results
             System.out.println("Theres no sold items!");
-        }else {
+        }else {//if theres results from the database
             System.out.println("Sold Items:");
             while (results.next()){
                 System.out.print("{");
+                //if the user is an admin then it will add the user id for each sale
                 if (user.getRole().equals("admin")) {
                     System.out.print("UserID: " + results.getString("ID") + " ");
                 }
@@ -44,12 +49,14 @@ public class App {
 
     public static void getProducts() throws SQLException {
         ResultSet results = connect.getUserProducts(user.getID(), user.getRole());
-        if(!results.isBeforeFirst()){
+        //gets the results of the products depending on the id and the user role
+        if(!results.isBeforeFirst()){ // if theres no result
             System.out.println("Theres no products!");
         }else {
             System.out.println("Products:");
             while (results.next()){
                 System.out.print("{");
+                //if the user is an admin then it will add the userID for every product
                 if (user.getRole().equals("admin")) {
                     System.out.print("UserID: " + results.getString("ID") + " ");
                 }
@@ -63,6 +70,7 @@ public class App {
 
     public static void menu(String role) throws SQLException {
         int choice;
+        //the choices if the user is an admin
         if(role.equals("admin")){
             do{
                 System.out.println("Admin Menu:");
@@ -85,6 +93,7 @@ public class App {
             }while(choice!= 6);
 
         }else{
+            //choices if the user isnt an admin
             do{
                 System.out.println("User Menu:");
                 System.out.println("1) View products");
@@ -106,6 +115,7 @@ public class App {
     }
 
     private static void addProducts() {
+        //gettting the product to add to the database
         int id,price;
         String name,quantity;
         System.out.print("Which user id? ");
@@ -128,6 +138,7 @@ public class App {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        //start of the program
         connect = new Connect();
         getAccess();
 
